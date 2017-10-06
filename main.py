@@ -1,73 +1,69 @@
 from flask import Flask, request, render_template
 import cgi
+import os
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 @app.route("/")
 def index():
-    return render_template('hello_form.html')
+    return render_template('helloform.html', title='Sign-Up')
 
 @app.route("/hello", methods=['POST'])
 def hello():
     username = request.form['username']
-    template = jinja_env.get_template('hello_greeting.html')
-    return template.render(name=username)
+    password = request.form["password"]
+    verifypassword = request.form["verifypassword"]
+    email = request.form["email"]
 
-@app.route('/validate-password', methods=['POST'])
-def validate_password():
+    username_error = verifyusername(username)
+    password_error, verifypassword_error = verifypasswords(password, verifypassword)
+    email_error = verifyemail(email)
 
-    password = request.form['register']
-    email = request.form['register']
-
-    password_error = ''
-    email_error = ''
-
-    if not is_string(password):
-        password_error = 'Not a valid password'
-        password = ''
+    if not username_error and not password_error and not email_error:
+        return render_template('welcome.html', title='Sign-Up', username=username)
     else:
-        password = str(password)
-        if password > 23 or password < 0:
-            password_error = 'password value out of range (0-23)'
-            password = ''
+        return render_template("helloform.html", title='Sign-Up', 
+            username=username, 
+            username_error=username_error,
+            password="", 
+            password_error = password_error,
+            verifypassword="", 
+            verifypassword_error = verifypassword_error,
+            email=email, 
+            email_error=email_error,
+            )
 
-    if not is_integer(minutes):
-        minutes_error = 'Not a valid integer'
-        minutes = ''
-    else:
-        minutes = int(minutes)
-        if minutes > 59 or minutes < 0:
-            minutes_error = 'Minutes value out of range (0-59)'
-            minutes = ''
+def verifyusername(username):
+    username_error = ""
 
-    if not minutes_error and not password_error:
-        time = str(password) + ':' + str(minutes)
-        return redirect('/valid-time?time={0}'.format(time))
-    else:
-        template = jinja_env.get_template('time_form.html')
-        return template.render(password_error=password_error,
-            minutes_error=minutes_error,
-            password=password,
-            minutes=minutes)
+    if username == "":
+        username_error = "Enter a Username"
 
+    if len(username) < 3 or len(username) > 20:
+        username_error = "Username must be between 3 - 20 characters"
 
-@app.route('/valid-time')
-def valid_time():
-    time = request.args.get('time')
-    return '<h1>You submitted {0}. Thanks for submitting a valid time!</h1>'.format(time)
+    return username_error
 
+def verifypasswords(password, verifypassword):
+    password_error = ""
+    verifypassword_error = ""
 
-tasks = []
+    if password == "":
+        password_error = "Enter a Password"
 
-@app.route('/todos', methods=['POST', 'GET'])
-def todos():
+    if len(password) < 3 or len(password) > 20:
+        password_error = "Password must be between 3 - 20 characters"
 
-    if request.method == 'POST':
-        task = request.form['task']
-        tasks.append(task)
+    if verifypassword == "":
+        verifypassword_error = "Verify Password"
 
-    template = jinja_env.get_template('todos.html')
-    return template.render(title="TODOs", tasks=tasks)
+    if password != verifypassword:
+        password_error = "Passwords must match"
 
+    return password_error, verifypassword_error
+
+def verifyemail(email):
+    return ""
+    
 app.run()

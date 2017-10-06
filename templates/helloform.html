@@ -1,10 +1,25 @@
-<!doctype html>
-<html>
-    <body>
-        <form action="/hello" method="post">
-            <label for="username">Username:</label>
-            <input id="username" type="text" name="username" />
-            <input type="submit" />
-        </form>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/hello" method="post">
+    <label for="username">Username:</label>
+    <input id="username" type="text" name="username" value="{{username}}"/>
+    <label class="error" style="color:red;">{{username_error}}</label>
+    </p>
+    <label for="password">Password:</label>
+    <input id="password" type="password" name="password" value="{{password}}" />
+    <label class="error" style="color:red;">{{password_error}}</label>
+    </p>
+    <label for="verifypassword">Verify Password:</label>
+    <input id="verifypassword" type="password" name="verifypassword" value="{{verifypassword}}" />
+    <label class="error" style="color:red;">{{verifypassword_error}}</label>    
+    </p>
+    <label for="email">Email (optional):</label>
+    <input id="email" type="text" name="email" value="{{email}}"/>
+    <label class="error" style="color:red;">{{email_error}}</label>
+    </p>
+    <input type="submit" />
+</form>
+
+{% endblock %}
