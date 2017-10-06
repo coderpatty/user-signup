@@ -1,0 +1,58 @@
+form = """
+<!doctype html>
+<html>
+    <body>
+        <form action="/Hi, you signed in" method="post">
+            <label for="username">username:</label>
+            <input id="username" type="text" name="username" />
+            <input type="submit" />
+        </form>
+    </body>
+</html>
+"""
+
+@app.route("/")
+def index():
+    return form
+    template = jinja_env.get_template('register_form.html')
+    return template.render()
+
+@app.route("/hello", methods=['POST'])
+def hello():
+    username = request.form['username']
+    return '<h1>Hi, '  cgi.escape(username)  '</h1>'
+    template = jinja_env.get_template('hello_greeting.html')
+    return template.render(name=username)
+
+
+time_form = """
+@@ 57,6 51,7 @@ def is_integer(num):
+        return True
+    except ValueError:
+        return False
+        
+
+@app.route('/validatetime', methods=['POST'])
+def validate_time():
+View  
+10  templates/hello_form.html
+@@ 0,0 1,10 @@
+<!doctype html>
+<html>
+    <body>
+        <form action="/hello" method="post">
+            <label for="firstname">First Name:</label>
+            <input id="firstname" type="text" name="first_name" />
+            <input type="submit" />
+        </form>
+    </body>
+</html> 
+View  
+6  templates/hello_greeting.html
+@@ 0,0 1,6 @@
+<!doctype html>
+<html>
+    <body>
+        <h1>Hello, {{name}}</h1>
+    </body>
+</html> 
