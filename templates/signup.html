@@ -20,23 +20,24 @@ def index():
 @app.route("/hello", methods=['POST'])
 def hello():
     username = request.form['username']
-    return '<h1>Hi, '  cgi.escape(username)  '</h1>'
+    return '<h1>Hi, '  cgi.escape(username)'</h1>'
     template = jinja_env.get_template('hello_greeting.html')
     return template.render(name=username)
 
 
-time_form = """
-@@ 57,6 51,7 @@ def is_integer(num):
+#@@ 57,6 51,7 @@ def is_integer(num):
         return True
     except ValueError:
         return False
         
 
-@app.route('/validatetime', methods=['POST'])
-def validate_time():
-View  
-10  templates/hello_form.html
-@@ 0,0 1,10 @@
+#@app.route('/validatetime', methods=['POST'])
+#def validate_time():
+#View  
+#10  templates/hello_form.html
+#@@ 0,0 1,10 @@
+
+
 <!doctype html>
 <html>
     <body>
