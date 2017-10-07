@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import cgi
 import os
+import re
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -64,6 +65,13 @@ def verifypasswords(password, verifypassword):
     return password_error, verifypassword_error
 
 def verifyemail(email):
-    return ""
-    
+    email_error = ""
+
+    if len(email) > 0:
+        match = re.search("[\w.-]+@[\w.-]+", email)
+        if not match:
+            email_error = "Invalid Email"
+   
+    return email_error
+  
 app.run()
